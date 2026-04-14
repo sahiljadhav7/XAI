@@ -60,3 +60,4 @@ design.md
 .pytest_cache/
 .coverage
 htmlcov/
+design.md
