@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block title %}InsightCare AI | Clinical Intelligence With Explanations{% endblock %}
+
+{% block content %}
+<section class="relative overflow-hidden pt-8 sm:pt-12">
+    <div class="shell-container pb-20 sm:pb-24">
+        <div class="grid gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+            <div class="fade-rise">
+                <span class="eyebrow">Clinical AI With Visible Reasoning</span>
+                <h1 class="text-balance mt-6 max-w-3xl font-display text-4xl font-semibold leading-[0.95] text-white sm:text-5xl lg:text-7xl">
+                    Diagnosis support that shows its work, not just its answer.
+                </h1>
+                <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
+                    InsightCare AI helps teams move from upload to interpretable result for chronic kidney disease reports and lung X-rays, with explainability built into the user journey.
+                </p>
+                <div class="mt-8 flex flex-wrap gap-4">
+                    <a href="{{ url_for('upload_report') }}" class="button-primary">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        Start Analysis
+                    </a>
+                    <a href="{{ url_for('service') }}" class="button-secondary">
+                        <i class="fa-solid fa-layer-group"></i>
+                        Explore Services
+                    </a>
+                </div>
+
+                <div class="mt-10 grid gap-4 sm:grid-cols-3">
+                    <div class="metric-pill">
+                        <span class="text-sm text-slate-400">Workflows</span>
+                        <strong>2</strong>
+                        <p class="mt-1 text-sm text-slate-300">Kidney report review and lung X-ray interpretation.</p>
+                    </div>
+                    <div class="metric-pill">
+                        <span class="text-sm text-slate-400">Outputs</span>
+                        <strong>Visual</strong>
+                        <p class="mt-1 text-sm text-slate-300">Confidence, feature drivers, and Grad-CAM overlays.</p>
+                    </div>
+                    <div class="metric-pill">
+                        <span class="text-sm text-slate-400">Experience</span>
+                        <strong>Guided</strong>
+                        <p class="mt-1 text-sm text-slate-300">A single flow from upload, to review, to explainable result.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative fade-rise">
+                <div class="grid-wash"></div>
+                <div class="surface-panel hero-frame min-h-[540px] p-5 shadow-aura">
+                    <img src="{{ url_for('static', filename='images/hero image.png') }}" alt="AI-assisted healthcare dashboard" class="rounded-[1.5rem] opacity-90">
+                    <div class="floating-chip left-5 top-5 w-56 p-4">
+                        <p class="text-xs uppercase tracking-[0.22em] text-slate-400">Workflow A</p>
+                        <p class="mt-2 font-display text-lg text-white">Kidney report screening</p>
+                        <p class="mt-1 text-sm text-slate-300">Extract key markers, verify values, and run an explainable CKD prediction.</p>
+                    </div>
+                    <div class="floating-chip bottom-6 right-5 w-60 p-4">
+                        <p class="text-xs uppercase tracking-[0.22em] text-slate-400">Workflow B</p>
+                        <p class="mt-2 font-display text-lg text-white">Lung X-ray triage</p>
+                        <p class="mt-1 text-sm text-slate-300">Pair class confidence with a Grad-CAM heatmap clinicians can visually inspect.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="services" class="relative py-10">
+    <div class="shell-container">
+        <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+                <span class="eyebrow">Designed Around Real Flows</span>
+                <h2 class="mt-5 font-display text-3xl font-semibold text-white sm:text-5xl">Two analysis paths, one cohesive interface.</h2>
+            </div>
+            <a href="{{ url_for('service') }}" class="button-secondary">
+                <i class="fa-solid fa-arrow-right"></i>
+                Full service detail
+            </a>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-2">
+            <article class="surface-card rounded-[2rem] p-8">
+                <p class="stat-kicker">Chronic Kidney Disease</p>
+                <h3 class="mt-3 font-display text-3xl font-semibold text-slate-950">Report extraction with review before prediction.</h3>
+                <p class="mt-4 text-base leading-7 text-slate-600">
+                    Upload a report image, inspect the extracted laboratory values, correct anything that looks off, then generate a CKD confidence score with contributing factors and SHAP explainability.
+                </p>
+                <div class="mt-6 flex flex-wrap gap-3 text-sm text-slate-600">
+                    <span class="rounded-full bg-teal-50 px-4 py-2">OCR-driven review step</span>
+                    <span class="rounded-full bg-slate-100 px-4 py-2">Feature importance chart</span>
+                    <span class="rounded-full bg-amber-50 px-4 py-2">Force plot output</span>
+                </div>
+            </article>
+
+            <article class="surface-card rounded-[2rem] p-8">
+                <p class="stat-kicker">Lung Analysis</p>
+                <h3 class="mt-3 font-display text-3xl font-semibold text-slate-950">X-ray classification supported by heatmap evidence.</h3>
+                <p class="mt-4 text-base leading-7 text-slate-600">
+                    Upload a chest image and compare the original scan with the Grad-CAM overlay so the prediction has immediate visual context instead of appearing as a black-box label.
+                </p>
+                <div class="mt-6 flex flex-wrap gap-3 text-sm text-slate-600">
+                    <span class="rounded-full bg-teal-50 px-4 py-2">Image confidence meter</span>
+                    <span class="rounded-full bg-slate-100 px-4 py-2">Side-by-side comparison</span>
+                    <span class="rounded-full bg-rose-50 px-4 py-2">Visual explanation layer</span>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section id="workflow" class="py-12 sm:py-16">
+    <div class="shell-container">
+        <div class="surface-panel overflow-hidden rounded-[2rem] p-8 sm:p-10">
+            <div class="mb-10 max-w-3xl">
+                <span class="eyebrow">Workflow</span>
+                <h2 class="mt-5 font-display text-3xl font-semibold text-white sm:text-5xl">The product now reads like a guided clinical tool, not a stack of separate pages.</h2>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-3">
+                <div class="rounded-[1.75rem] border border-slate-800/80 bg-slate-950/55 p-6">
+                    <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-500/20 text-teal-300">
+                        <i class="fa-solid fa-upload"></i>
+                    </div>
+                    <h3 class="font-display text-2xl text-white">1. Choose and upload</h3>
+                    <p class="mt-3 leading-7 text-slate-300">
+                        The upload screen adapts its guidance based on whether the user is screening a report or reviewing a lung X-ray.
+                    </p>
+                </div>
+
+                <div class="rounded-[1.75rem] border border-slate-800/80 bg-slate-950/55 p-6">
+                    <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-400/20 text-amber-300">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <h3 class="font-display text-2xl text-white">2. Inspect extracted data</h3>
+                    <p class="mt-3 leading-7 text-slate-300">
+                        For kidney reports, the interface pauses to let users validate every field before the model runs, reducing trust issues caused by hidden preprocessing.
+                    </p>
+                </div>
+
+                <div class="rounded-[1.75rem] border border-slate-800/80 bg-slate-950/55 p-6">
+                    <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-400/20 text-rose-300">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="font-display text-2xl text-white">3. Review explainable output</h3>
+                    <p class="mt-3 leading-7 text-slate-300">
+                        Results emphasize why the model responded the way it did, combining confidence, feature impact, and visual explanation into one read.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="py-10 sm:py-14">
+    <div class="shell-container">
+        <div class="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+            <div class="surface-card rounded-[2rem] p-6 sm:p-8">
+                <img src="{{ url_for('static', filename='images/about.jpg') }}" alt="Medical professionals using AI tools" class="h-full w-full rounded-[1.5rem] object-cover">
+            </div>
+
+            <div class="surface-card rounded-[2rem] p-8 sm:p-10">
+                <span class="eyebrow !bg-slate-950 !text-teal-100">Why this redesign matters</span>
+                <h2 class="mt-5 font-display text-3xl font-semibold text-slate-950 sm:text-5xl">The interface now leads with clarity, confidence, and explainability.</h2>
+                <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                    <div class="rounded-[1.5rem] bg-slate-50 p-5">
+                        <p class="font-display text-xl font-semibold text-slate-950">Less duplication</p>
+                        <p class="mt-2 text-sm leading-6 text-slate-600">A shared base layout keeps navigation, branding, and spacing consistent across flows.</p>
+                    </div>
+                    <div class="rounded-[1.5rem] bg-slate-50 p-5">
+                        <p class="font-display text-xl font-semibold text-slate-950">Better trust signals</p>
+                        <p class="mt-2 text-sm leading-6 text-slate-600">Users see review checkpoints, impact charts, and visual overlays instead of hidden model output.</p>
+                    </div>
+                    <div class="rounded-[1.5rem] bg-slate-50 p-5">
+                        <p class="font-display text-xl font-semibold text-slate-950">Cleaner journeys</p>
+                        <p class="mt-2 text-sm leading-6 text-slate-600">Landing, upload, review, and result pages now feel like one product experience.</p>
+                    </div>
+                    <div class="rounded-[1.5rem] bg-slate-50 p-5">
+                        <p class="font-display text-xl font-semibold text-slate-950">Mobile-aware</p>
+                        <p class="mt-2 text-sm leading-6 text-slate-600">Cards, forms, and visual results stack cleanly for smaller screens without losing structure.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact_us" class="py-10 sm:py-16">
+    <div class="shell-container">
+        <div class="surface-panel rounded-[2rem] p-8 sm:p-10">
+            <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+                <div>
+                    <span class="eyebrow">Launch Into Analysis</span>
+                    <h2 class="mt-5 font-display text-3xl font-semibold text-white sm:text-5xl">Ready to move from raw report to explainable result?</h2>
+                    <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+                        Start with the upload flow and the interface will guide the user through the rest of the diagnostic review.
+                    </p>
+                </div>
+                <div class="surface-card rounded-[1.75rem] p-7">
+                    <p class="stat-kicker">Quick start</p>
+                    <h3 class="mt-3 font-display text-2xl font-semibold text-slate-950">Choose a workflow and upload a valid image.</h3>
+                    <p class="mt-4 text-sm leading-7 text-slate-600">
+                        Kidney workflow expects a report image. Lung workflow expects a chest X-ray image. Both paths now have clearer prompts and friendlier next steps.
+                    </p>
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <a href="{{ url_for('upload_report') }}" class="button-primary">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            Open Upload
+                        </a>
+                        <a href="{{ url_for('about') }}" class="button-ghost">
+                            <i class="fa-solid fa-circle-info"></i>
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

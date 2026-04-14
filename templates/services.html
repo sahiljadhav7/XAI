@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Services | InsightCare AI{% endblock %}
+
+{% block content %}
+<section class="pt-8 sm:pt-12">
+    <div class="shell-container">
+        <div class="max-w-4xl">
+            <span class="eyebrow">Service Portfolio</span>
+            <h1 class="mt-6 text-balance font-display text-4xl font-semibold leading-[0.98] text-white sm:text-6xl">
+                Frontend flows built around the two places users need the most clarity.
+            </h1>
+            <p class="mt-6 text-lg leading-8 text-slate-300">
+                The app now treats kidney screening and lung image interpretation as distinct but visually related workflows, so users always understand what input is expected and what evidence comes back.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="py-12 sm:py-16">
+    <div class="shell-container">
+        <div class="grid gap-6 xl:grid-cols-2">
+            <article class="surface-card rounded-[2rem] p-8">
+                <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-50 text-teal-600">
+                    <i class="fa-solid fa-file-waveform text-xl"></i>
+                </div>
+                <p class="stat-kicker">Service A</p>
+                <h2 class="mt-3 font-display text-3xl font-semibold text-slate-950">CKD report workflow</h2>
+                <p class="mt-4 leading-7 text-slate-600">
+                    Designed for uploaded report imagery that may require field correction before inference. The review step is part of the core UX, not a secondary admin view.
+                </p>
+                <div class="mt-6 grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
+                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Input: scanned or photographed report image</div>
+                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Output: prediction confidence and SHAP-based explanation</div>
+                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Key strength: editable extracted values</div>
+                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Visuals: factor chart plus force plot</div>
+                </div>
+            </article>
+
+            <article class="surface-card rounded-[2rem] p-8">
+                <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
+                    <i class="fa-solid fa-lungs text-xl"></i>
+                </div>
+                <p class="stat-kicker">Service B</p>
+                <h2 class="mt-3 font-display text-3xl font-semibold text-slate-950">Lung X-ray workflow</h2>
+                <p class="mt-4 leading-7 text-slate-600">
+                    Built for image-first interpretation, where a confidence label alone is not enough. The result view compares the original X-ray against the Grad-CAM heatmap to add immediate context.
+                </p>
+                <div class="mt-6 grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
+                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Input: chest X-ray image</div>
+                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Output: class label with visual evidence</div>
+                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Key strength: side-by-side reading experience</div>
+                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Visuals: confidence bar and heatmap</div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="py-6 sm:py-10">
+    <div class="shell-container">
+        <div class="surface-panel rounded-[2rem] p-8 sm:p-10">
+            <div class="grid gap-6 lg:grid-cols-3">
+                <div class="rounded-[1.5rem] border border-slate-800/80 bg-slate-950/55 p-6">
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-400">Input guidance</p>
+                    <h3 class="mt-3 font-display text-2xl text-white">Users know what to upload</h3>
+                    <p class="mt-3 text-sm leading-7 text-slate-300">The upload page changes its wording and expectations based on the selected workflow.</p>
+                </div>
+                <div class="rounded-[1.5rem] border border-slate-800/80 bg-slate-950/55 p-6">
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-400">Evidence layers</p>
+                    <h3 class="mt-3 font-display text-2xl text-white">Results surface reasoning</h3>
+                    <p class="mt-3 text-sm leading-7 text-slate-300">Charts, overlays, and summaries help the result screens feel inspectable rather than abrupt.</p>
+                </div>
+                <div class="rounded-[1.5rem] border border-slate-800/80 bg-slate-950/55 p-6">
+                    <p class="text-sm uppercase tracking-[0.2em] text-slate-400">Shared system</p>
+                    <h3 class="mt-3 font-display text-2xl text-white">One brand across the app</h3>
+                    <p class="mt-3 text-sm leading-7 text-slate-300">Navigation, spacing, and card styling now read as one product instead of disconnected template files.</p>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <a href="{{ url_for('upload_report') }}" class="button-primary">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    Open Upload Flow
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

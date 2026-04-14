@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lung Disease Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="bg-white shadow-lg rounded-lg p-6 max-w-3xl w-full">
+        <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6">Lung Disease Detection Report</h2>
+
+        <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+            <!-- Original Image -->
+            <div class="text-center">
+                <h3 class="text-lg font-medium text-gray-700 mb-2">Original Image</h3>
+                <img src="data:image/jpeg;base64,{{ original_image }}" alt="Original X-ray"
+                    class="w-72 h-72 object-cover rounded-lg shadow-md">
+            </div>
+
+            <!-- Grad-CAM Image -->
+            <div class="text-center">
+                <h3 class="text-lg font-medium text-gray-700 mb-2">Grad-CAM Heatmap</h3>
+                <img src="data:image/jpeg;base64,{{ gradcam_image }}" alt="Grad-CAM Heatmap"
+                    class="w-72 h-72 object-cover rounded-lg shadow-md">
+            </div>
+        </div>
+
+        <p class="text-lg font-medium text-gray-600 text-center mt-6">
+            <strong>Predicted Class:</strong> {{ predicted_class }}
+        </p>
+
+        <div class="mt-6 text-center">
+            <a href="/"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300">
+                Upload Another Image
+            </a>
+        </div>
+    </div>
+
+</body>
+
+</html>

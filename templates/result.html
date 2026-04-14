@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Kidney Analysis Result | InsightCare AI{% endblock %}
+
+{% block head_extra %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+{% endblock %}
+
+{% block content %}
+{% set confidence_pct = (confidence * 100) | round(2) %}
+{% set elevated_signal = confidence >= 0.62 %}
+<section class="pt-8 sm:pt-12">
+    <div class="shell-container space-y-6">
+        <div class="surface-panel rounded-[2rem] p-8 sm:p-10">
+            <div class="grid gap-8 xl:grid-cols-[1.08fr_0.92fr] xl:items-start">
+                <div>
+                    <span class="eyebrow">Kidney Result</span>
+                    <h1 class="mt-5 font-display text-4xl font-semibold text-white sm:text-5xl">Explainable CKD assessment, presented as a story instead of a raw score.</h1>
+                    <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+                        The result screen now groups prediction confidence, top feature drivers, and the SHAP force plot into one readable flow so the output feels inspectable.
+                    </p>
+                </div>
+
+                <div class="surface-card rounded-[1.75rem] p-6 sm:p-7">
+                    <p class="stat-kicker">Screening summary</p>
+                    <h2 class="mt-3 font-display text-3xl font-semibold text-slate-950">{{ "Elevated CKD signal" if elevated_signal else "Lower CKD signal" }}</h2>
+                    <p class="mt-3 text-sm leading-7 text-slate-600">
+                        Confidence score reflects the current model output after the report values were reviewed and submitted.
+                    </p>
+                    <div class="mt-6">
+                        <div class="mb-2 flex items-center justify-between text-sm font-semibold text-slate-700">
+                            <span>Prediction confidence</span>
+                            <span>{{ confidence_pct }}%</span>
+                        </div>
+                        <div class="progress-track h-3">
+                            <span style="width: {{ confidence_pct }}%"></span>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <a href="{{ url_for('upload_report') }}" class="button-primary">
+                            <i class="fa-solid fa-upload"></i>
+                            New Upload
+                        </a>
+                        <a href="{{ url_for('home') }}" class="button-ghost">
+                            <i class="fa-solid fa-house"></i>
+                            Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid gap-6 xl:grid-cols-[0.98fr_1.02fr]">
+            <article class="surface-card rounded-[2rem] p-6 sm:p-8">
+                <p class="stat-kicker">Why the model leaned this way</p>
+                <h2 class="mt-3 font-display text-3xl font-semibold text-slate-950">Top contributing factors</h2>
+                <p class="mt-3 text-sm leading-7 text-slate-600">
+                    The chart below highlights the strongest features affecting the current prediction.
+                </p>
+                <div id="contributingFactors" class="mt-6 h-[360px] w-full"></div>
+            </article>
+
+            <article class="surface-card rounded-[2rem] p-6 sm:p-8">
+                <p class="stat-kicker">Narrative explanation</p>
+                <h2 class="mt-3 font-display text-3xl font-semibold text-slate-950">Plain-language interpretation</h2>
+                <div class="mt-6 text-sm leading-7 text-slate-700 [&_b]:font-semibold [&_li]:mb-2 [&_li]:ml-5 [&_li]:list-disc">
+                    {{ text_explanation | safe }}
+                </div>
+            </article>
+        </div>
+
+        <div class="surface-card rounded-[2rem] p-6 sm:p-8">
+            <p class="stat-kicker">Detailed attribution</p>
+            <h2 class="mt-3 font-display text-3xl font-semibold text-slate-950">SHAP force plot</h2>
+            <p class="mt-3 text-sm leading-7 text-slate-600">
+                This preserves the underlying force-plot view while giving it more breathing room inside the redesigned layout.
+            </p>
+            <div class="mt-6 overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white">
+                <iframe src="{{ url_for('static', filename='images/force_plot.html') }}" class="h-[420px] w-full" title="SHAP force plot"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const top7Features = {{ top_7_features | tojson }};
+    const top7Importance = {{ top_7_importance_values | tojson }};
+    const chartElement = document.getElementById("contributingFactors");
+
+    if (chartElement && window.echarts) {
+        const chart = echarts.init(chartElement);
+        chart.setOption({
+            animationDuration: 600,
+            tooltip: {
+                trigger: "axis",
+                axisPointer: { type: "shadow" }
+            },
+            grid: {
+                left: 24,
+                right: 24,
+                top: 16,
+                bottom: 16,
+                containLabel: true
+            },
+            xAxis: {
+                type: "value",
+                splitLine: {
+                    lineStyle: {
+                        color: "rgba(148, 163, 184, 0.18)"
+                    }
+                }
+            },
+            yAxis: {
+                type: "category",
+                data: [...top7Features].reverse(),
+                axisLine: { show: false },
+                axisTick: { show: false }
+            },
+            series: [
+                {
+                    type: "bar",
+                    data: [...top7Importance].reverse(),
+                    barWidth: 18,
+                    itemStyle: {
+                        borderRadius: [0, 12, 12, 0],
+                        color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [
+                            { offset: 0, color: "#14b8a6" },
+                            { offset: 1, color: "#99f6e4" }
+                        ])
+                    }
+                }
+            ]
+        });
+
+        window.addEventListener("resize", () => chart.resize());
+    }
+</script>
+{% endblock %}

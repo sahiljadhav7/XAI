@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Review Extracted Report | InsightCare AI{% endblock %}
+
+{% macro input_field(name, label, value="", type="text") -%}
+<div>
+    <label for="{{ name }}" class="mb-2 block text-sm font-semibold text-slate-700">{{ label }}</label>
+    <input id="{{ name }}" type="{{ type }}" name="{{ name }}" value="{{ value }}">
+</div>
+{%- endmacro %}
+
+{% macro select_field(name, label, value="", options=[]) -%}
+<div>
+    <label for="{{ name }}" class="mb-2 block text-sm font-semibold text-slate-700">{{ label }}</label>
+    <select id="{{ name }}" name="{{ name }}">
+        {% for option in options %}
+        <option value="{{ option }}" {% if value == option %}selected{% endif %}>{{ option }}</option>
+        {% endfor %}
+    </select>
+</div>
+{%- endmacro %}
+
+{% block content %}
+{% set ckd = ckd_data or {} %}
+<section class="pt-8 sm:pt-12">
+    <div class="shell-container">
+        <div class="mb-8 flex flex-wrap items-center gap-4">
+            <a href="{{ url_for('upload_report') }}" class="button-secondary">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back To Upload
+            </a>
+            <span class="rounded-full border border-slate-800/80 px-4 py-2 text-sm text-slate-300">Workflow: {{ disease_type|title if disease_type else "Kidney" }}</span>
+            <span class="rounded-full border border-slate-800/80 px-4 py-2 text-sm text-slate-300">File: {{ report_image or "Awaiting upload" }}</span>
+        </div>
+
+        <div class="grid gap-6 xl:grid-cols-[0.82fr_1.18fr]">
+            <aside class="space-y-6">
+                <div class="surface-panel rounded-[2rem] p-6 sm:p-7">
+                    <span class="eyebrow">Review Step</span>
+                    <h1 class="mt-5 font-display text-3xl font-semibold text-white sm:text-4xl">Check extracted values before you run the model.</h1>
+                    <p class="mt-4 text-sm leading-7 text-slate-300">
+                        This screen is now designed as a deliberate pause. Users can inspect the uploaded report, verify the extracted markers, and fix anything that looks unreliable.
+                    </p>
+                    <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                        <div class="rounded-[1.5rem] border border-slate-800/80 bg-slate-950/55 p-4">
+                            <p class="text-sm text-slate-400">Fields extracted</p>
+                            <p class="mt-2 font-display text-3xl text-white">{{ ckd|length }}</p>
+                        </div>
+                        <div class="rounded-[1.5rem] border border-slate-800/80 bg-slate-950/55 p-4">
+                            <p class="text-sm text-slate-400">Next action</p>
+                            <p class="mt-2 font-display text-2xl text-white">Run CKD prediction</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="surface-card rounded-[2rem] p-5">
+                    <p class="stat-kicker">Uploaded report</p>
+                    {% if report_preview_path %}
+                    <img src="{{ url_for('static', filename=report_preview_path) }}" alt="Uploaded report preview" class="mt-4 w-full rounded-[1.5rem] border border-slate-200 object-contain bg-white p-3">
+                    {% else %}
+                    <div class="mt-4 rounded-[1.5rem] border border-dashed border-slate-200 bg-slate-50 p-8 text-center text-sm text-slate-500">
+                        Upload a kidney report image to preview it here.
+                    </div>
+                    {% endif %}
+                </div>
+            </aside>
+
+            <div class="surface-card rounded-[2rem] p-6 sm:p-8">
+                <form action="{{ url_for('predict') }}" method="POST" class="form-shell">
+                    <input type="hidden" name="disease_type" value="{{ disease_type }}">
+
+                    <div class="space-y-8">
+                        <div>
+                            <p class="stat-kicker">Demographics and vitals</p>
+                            <div class="mt-4 grid gap-4 md:grid-cols-2">
+                                {{ input_field("age", "Age", ckd.get("age", "")) }}
+                                {{ input_field("bp", "Blood Pressure (bp)", ckd.get("bp", "")) }}
+                                {{ input_field("sg", "Specific Gravity (sg)", ckd.get("sg", "")) }}
+                                {{ input_field("al", "Albumin (al)", ckd.get("al", "")) }}
+                                {{ input_field("su", "Sugar (su)", ckd.get("su", "")) }}
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="stat-kicker">Urine and cellular markers</p>
+                            <div class="mt-4 grid gap-4 md:grid-cols-2">
+                                {{ input_field("rbc", "Red Blood Cells (rbc)", ckd.get("rbc", "")) }}
+                                {{ input_field("pc", "Pus Cells (pc)", ckd.get("pc", "")) }}
+                                {{ input_field("pcc", "Pus Cell Clumps (pcc)", ckd.get("pcc", "")) }}
+                                {{ input_field("ba", "Bacteria (ba)", ckd.get("ba", "")) }}
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="stat-kicker">Blood chemistry</p>
+                            <div class="mt-4 grid gap-4 md:grid-cols-2">
+                                {{ input_field("bgr", "Blood Glucose Random (bgr)", ckd.get("bgr", "")) }}
+                                {{ input_field("bu", "Blood Urea (bu)", ckd.get("bu", "")) }}
+                                {{ input_field("sc", "Serum Creatinine (sc)", ckd.get("sc", "")) }}
+                                {{ input_field("sod", "Sodium (sod)", ckd.get("sod", "")) }}
+                                {{ input_field("pot", "Potassium (pot)", ckd.get("pot", "")) }}
+                                {{ input_field("hemo", "Hemoglobin (hemo)", ckd.get("hemo", "")) }}
+                                {{ input_field("pcv", "Packed Cell Volume (pcv)", ckd.get("pcv", "")) }}
+                                {{ input_field("wc", "White Blood Cell Count (wc)", ckd.get("wc", "")) }}
+                                {{ input_field("rc", "Red Blood Cell Count (rc)", ckd.get("rc", "")) }}
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="stat-kicker">Clinical history</p>
+                            <div class="mt-4 grid gap-4 md:grid-cols-2">
+                                {{ select_field("htn", "Hypertension (htn)", ckd.get("htn", "No"), ["Yes", "No"]) }}
+                                {{ select_field("dm", "Diabetes Mellitus (dm)", ckd.get("dm", "No"), ["Yes", "No"]) }}
+                                {{ select_field("cad", "Coronary Artery Disease (cad)", ckd.get("cad", "No"), ["Yes", "No"]) }}
+                                {{ select_field("appet", "Appetite (appet)", ckd.get("appet", "Good"), ["Good", "Poor"]) }}
+                                {{ select_field("pe", "Pedal Edema (pe)", ckd.get("pe", "No"), ["Yes", "No"]) }}
+                                {{ select_field("ane", "Anemia (ane)", ckd.get("ane", "No"), ["Yes", "No"]) }}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-4">
+                            <button type="submit" class="button-primary">
+                                <i class="fa-solid fa-wave-square"></i>
+                                Run CKD Prediction
+                            </button>
+                            <a href="{{ url_for('upload_report') }}" class="button-ghost">
+                                <i class="fa-solid fa-rotate-left"></i>
+                                Upload Another Report
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

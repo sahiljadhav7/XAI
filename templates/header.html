@@ -1,0 +1,39 @@
+<header class="fixed w-full bg-sky-800/90 backdrop-blur-sm z-50 border-b border-sky-700">
+    <nav class="max-w-8xl mx-auto px-5">
+        <div class="flex items-center justify-between h-20 bg-transparent border-b border-sky-700">
+            <div class="flex items-center gap-12">
+                <a href="#" class="flex items-center gap-2">
+                    <img src="static/images/logo.png" alt="InsightCare AI" class="h-10" />
+                </a>
+                <div class="hidden lg:flex items-center gap-8">
+                    <a href="/" class="text-white hover:text-sky-200">Home</a>
+                    <a href="{{url_for('service')}}" class="text-white hover:text-sky-200">Services</a>
+                    <a href="/#how_it_works" class="text-white hover:text-sky-200">How It Works</a>
+                    <a href="{{url_for('about')}}" class="text-white hover:text-sky-200">About</a>
+                    <a href="/#contact_us" class="text-white hover:text-sky-200">Contact</a>
+                </div>
+            </div>
+            <div class="hidden lg:flex items-center gap-4">
+                <button class="bg-custom text-white px-6 py-2 !rounded-button hover:bg-custom/90"><a
+                        href="{{url_for('upload_report')}}">Get
+                        Started</a></button>
+            </div>
+            <button class="lg:hidden text-white hover:text-sky-200"
+                onclick="document.getElementById(&#39;mobile-menu&#39;).classList.toggle(&#39;hidden&#39;)"><i
+                    class="fas fa-bars text-2xl"></i></button>
+        </div>
+        <div id="mobile-menu"
+            class="lg:hidden hidden fixed w-full bg-sky-800 top-20 left-0 border-b border-sky-700 py-4">
+            <div class="flex flex-col items-center gap-4">
+                <a href="/" class="text-white hover:text-sky-200">Home</a>
+                <a href="{{url_for('service')}}" class="text-white hover:text-sky-200">Services</a>
+                <a href="/#how_it_works" class="text-white hover:text-sky-200">How It Works</a>
+                <a href="{{url_for('about')}}" class="text-white hover:text-sky-200">About</a>
+                <a href="/#contact_us" class="text-white hover:text-sky-200">Contact</a>
+                <button class="bg-custom text-white px-6 py-2 !rounded-button hover:bg-custom/90"><a
+                        href="{{url_for('upload_report')}}">Get
+                        Started</a></button>
+            </div>
+        </div>
+    </nav>
+</header>
