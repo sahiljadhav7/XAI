@@ -130,8 +130,7 @@ def extract_ckd_data_from_image(img_path):
 #         dict or str: Extracted CKD attributes in JSON format, or a string if the image is not correct.
 #     """
     
-#     # Configure API Key
-#     genai.configure(api_key="AIzaSyC7GldrwOpYE4QYc36laArBvMaaysVWPWk")
+#   
 
 #     # Load the image
 #     image = Image.open(img_path)
