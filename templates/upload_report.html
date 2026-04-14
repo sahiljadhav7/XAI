@@ -24,7 +24,8 @@
                         <p class="mt-3 text-sm body-font">
                             Upload a report image, review extracted values, then run the CKD prediction with feature-level explanation.
                         </p>
-                        <div class="mt-4 badge-clay" style="{% if workflow_status.kidney.ready %}background: var(--swatch-matcha-300){% else %}background: var(--swatch-lemon-400){% endif %}; border: 1px solid var(--ink-black);">
+                        {% set kidney_style = 'style="background: var(--swatch-matcha-300); border: 1px solid var(--ink-black);"' if workflow_status.kidney.ready else 'style="background: var(--swatch-lemon-400); border: 1px solid var(--ink-black);"' %}
+                        <div class="mt-4 badge-clay" {{ kidney_style | safe }}>
                             {{ "Available" if workflow_status.kidney.ready else "Needs setup" }}
                         </div>
                     </div>
@@ -33,7 +34,8 @@
                         <p class="mt-3 text-sm body-font">
                             Upload a chest X-ray and view the confidence result next to the generated Grad-CAM overlay.
                         </p>
-                        <div class="mt-4 badge-clay" style="{% if workflow_status.lung.ready %}background: var(--swatch-matcha-300){% else %}background: var(--swatch-lemon-400){% endif %}; border: 1px solid var(--ink-black);">
+                        {% set lung_style = 'style="background: var(--swatch-matcha-300); border: 1px solid var(--ink-black);"' if workflow_status.lung.ready else 'style="background: var(--swatch-lemon-400); border: 1px solid var(--ink-black);"' %}
+                        <div class="mt-4 badge-clay" {{ lung_style | safe }}>
                             {{ "Available" if workflow_status.lung.ready else "Needs model.h5" }}
                         </div>
                     </div>

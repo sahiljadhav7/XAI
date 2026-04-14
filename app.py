@@ -158,7 +158,15 @@ def view_report():
                     )
                 )
 
-            model = load_model(model_path)
+
+            from tensorflow.keras.layers import Dense
+            class CustomDense(Dense):
+                @classmethod
+                def from_config(cls, config):
+                    config.pop('quantization_config', None)
+                    return super().from_config(config)
+
+            model = load_model(model_path, custom_objects={'Dense': CustomDense}, compile=False)
             image_path = file_path
             predicted_class,predicted_probability, gradcam_image = predict_and_visualize(image_path,model,"conv_pw_13_relu")
 
@@ -166,15 +174,20 @@ def view_report():
             if output_units == 1:
                 if predicted_class == 0:
                     predicted_class = "Normal"
+                    text_explanation = "The X-ray appears clear with no significant opacities or structural abnormalities detected. The lung volume looks normal. If the patient is experiencing symptoms like a mild cough or fatigue, they may be arising from a non-pulmonary source or a very early-stage presentation not visible on standard radiography."
                 else:
                     predicted_class = "Abnormality Detected"
+                    text_explanation = "The X-ray shows regions that deviate from a normal pulmonary baseline. This could include cloudiness (opacities), irregular interstitial patterns, or possible fluid buildup. Patients with this finding may experience shortness of breath, a persistent or productive cough, or chest tightness. A clinical review is strongly recommended to identify the exact cause (e.g. infection, effusion, or other pathology)."
             else:
                 if(predicted_class==0):
                     predicted_class = "Lung Opacity"
+                    text_explanation = "The X-ray shows regions of cloudiness or 'opacity' which shouldn't normally be there. Patients with this finding often experience shortness of breath, a persistent, sometimes productive cough, and possible chest tightness. Opacities can point to bacterial infections, fluid buildup, or other localized cellular abnormalities requiring further medical review."
                 elif(predicted_class==1):
                     predicted_class = "Normal"
+                    text_explanation = "The X-ray appears clear with no significant opacities or viral patterns detected. The lung volume looks normal. If the patient is experiencing symptoms like a mild cough or fatigue, they may be arising from a non-pulmonary source or a very early-stage presentation not visible on standard radiography."
                 else:
                     predicted_class = "Viral Pneumonia"
+                    text_explanation = "The X-ray indicates diffuse, often bilateral interstitial patterns that are standard markers for viral infections (like influenza, RSV, or COVID-19). Patients actively dealing with this often experience fever, a dry and irritating cough, significant fatigue, muscle aches, and shortness of breath that worsens with exertion."
                 
             # Convert gradcam_image to base64 for HTML rendering
             _, buffer = cv2.imencode('.jpg', gradcam_image)
@@ -184,8 +197,9 @@ def view_report():
             _, buffer = cv2.imencode('.jpg', original_image)
             original_image_base64 = base64.b64encode(buffer).decode('utf-8')
 
-            return render_template('image_result.html', disease_type=disease_type, original_image = original_image_base64,
-                                    gradcam_image=gradcam_image_base64, predicted_class=predicted_class,predicted_probability=predicted_probability ) 
+            return render_template('image_result.html', disease_type=disease_type, original_image=original_image_base64,
+                                    gradcam_image=gradcam_image_base64, predicted_class=predicted_class,
+                                    predicted_probability=predicted_probability, text_explanation=text_explanation) 
             
     return render_template('view_report.html', disease_type=disease_type, report_image=report_image, report_preview_path=report_preview_path, ckd_data={})
 

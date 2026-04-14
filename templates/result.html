@@ -33,7 +33,8 @@
                             <span>{{ confidence_pct }}%</span>
                         </div>
                         <div class="w-full bg-clay-oat rounded-full h-4 overflow-hidden border border-clay-black">
-                            <div class="h-full rounded-full" style="background: var(--swatch-matcha-300); border-right: 1px solid var(--ink-black); width: {{ confidence_pct }}%;"></div>
+                            {% set bar_style = 'style="background: var(--swatch-matcha-300); border-right: 1px solid var(--ink-black); width: ' ~ confidence_pct ~ '%;"' %}
+                            <div class="h-full rounded-full" {{ bar_style | safe }}></div>
                         </div>
                     </div>
                     <div class="mt-6 flex flex-wrap gap-3">
@@ -84,9 +85,11 @@
 {% endblock %}
 
 {% block scripts %}
+<script type="application/json" id="data-features">{{ top_7_features | tojson }}</script>
+<script type="application/json" id="data-importance">{{ top_7_importance_values | tojson }}</script>
 <script>
-    const top7Features = {{ top_7_features | tojson }};
-    const top7Importance = {{ top_7_importance_values | tojson }};
+    const top7Features = JSON.parse(document.getElementById("data-features").textContent);
+    const top7Importance = JSON.parse(document.getElementById("data-importance").textContent);
     const chartElement = document.getElementById("contributingFactors");
 
     if (chartElement && window.echarts) {
