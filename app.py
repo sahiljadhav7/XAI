@@ -1,17 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from data_extraction import extract_ckd_data_from_image
-from prediction import preprocess_input_data,predict_explain
-from lung_disease import *
 import os
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
-import pandas as pd
-import pickle
-import shap
-import io
-import matplotlib.pyplot as plt
 import base64
-from pdf_generator import * 
+import io
+import pickle
+from pdf_generator import *
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
 
@@ -158,8 +153,12 @@ def view_report():
                     )
                 )
 
-
+            # Lazy-load TensorFlow and lung disease utilities only when needed
+            from lung_disease import predict_and_visualize
+            from tensorflow.keras.models import load_model
             from tensorflow.keras.layers import Dense
+            import cv2
+
             class CustomDense(Dense):
                 @classmethod
                 def from_config(cls, config):
@@ -207,10 +206,6 @@ def view_report():
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-
-import numpy as np
-import pandas as pd
-import shap
 
 
 @app.route('/predict', methods=['POST'])
@@ -288,21 +283,25 @@ def predict():
                 )
             )
 
+        # Lazy-load heavy ML modules only when needed
+        import numpy as np
+        import pandas as pd
+        import shap
+        import joblib
+        from prediction import preprocess_input_data, predict_explain
+
+        # Load data and model
+        df = pd.read_csv(data_path)
+        df.drop('classification', axis=1, inplace=True)
+        rf_model = joblib.load(model_path)
+        explainer = shap.TreeExplainer(rf_model)
+
         scaled_instance = preprocess_input_data(form_data)
 
         # Check if preprocessing failed
         if scaled_instance is None:
             print("Error: Preprocessing failed!")
             return render_template('error.html', message="Invalid input data or missing preprocessing assets for kidney prediction.")
-
-        # Read data correctly
-        df = pd.read_csv(data_path)
-        df.drop('classification', axis=1, inplace=True)  # Fixed `axis=1`
-
-        # Load the model correctly
-        import joblib
-        rf_model = joblib.load(model_path)
-        explainer = shap.TreeExplainer(rf_model)
 
         # Ensure `predict_explain` is available
         try:
