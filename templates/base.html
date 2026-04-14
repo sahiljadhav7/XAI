@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}InsightCare AI{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -15,11 +16,15 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ["Manrope", "sans-serif"],
-                        display: ["Outfit", "sans-serif"]
+                        sans: ["Inter", "sans-serif"],
+                        mono: ["Space Mono", "monospace"]
                     },
-                    boxShadow: {
-                        aura: "0 28px 80px rgba(15, 23, 42, 0.26)"
+                    colors: {
+                        clay: {
+                            black: '#000000',
+                            cream: '#faf9f7',
+                            oat: '#dad4c8'
+                        }
                     }
                 }
             }
@@ -30,50 +35,45 @@
 </head>
 
 <body class="page-body">
-    <div class="ambient-orb ambient-orb-a"></div>
-    <div class="ambient-orb ambient-orb-b"></div>
-    <div class="ambient-orb ambient-orb-c"></div>
 
     <header class="sticky top-0 z-50 px-4 py-4 sm:px-6">
         <div class="shell-container">
-            <nav class="glass-nav rounded-[1.75rem] px-5 py-4 sm:px-6">
+            <nav class="glass-nav px-5 py-4 sm:px-6">
                 <div class="flex items-center justify-between gap-4">
                     <a href="{{ url_for('home') }}" class="flex items-center gap-3">
-                        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="InsightCare AI logo" class="h-11 w-auto">
                         <div>
-                            <p class="font-display text-lg font-semibold text-white">InsightCare AI</p>
-                            <p class="text-xs uppercase tracking-[0.24em] text-slate-400">Explainable Diagnostics</p>
+                            <p class="text-2xl font-bold tracking-tighter text-clay-black">XAI</p>
                         </div>
                     </a>
 
                     <div class="hidden items-center gap-8 lg:flex">
-                        <a href="{{ url_for('home') }}" class="nav-link {% if request.endpoint == 'home' %}nav-link-active{% endif %}">Home</a>
-                        <a href="{{ url_for('service') }}" class="nav-link {% if request.endpoint == 'service' %}nav-link-active{% endif %}">Services</a>
-                        <a href="{{ url_for('home') }}#workflow" class="nav-link">Workflow</a>
-                        <a href="{{ url_for('about') }}" class="nav-link {% if request.endpoint == 'about' %}nav-link-active{% endif %}">About</a>
-                        <a href="{{ url_for('home') }}#contact_us" class="nav-link">Contact</a>
+                        <a href="{{ url_for('home') }}" class="font-medium text-clay-black hover:opacity-70 transition-opacity">Home</a>
+                        <a href="{{ url_for('service') }}" class="font-medium text-clay-black hover:opacity-70 transition-opacity">Services</a>
+                        <a href="{{ url_for('home') }}#workflow" class="font-medium text-clay-black hover:opacity-70 transition-opacity">Workflow</a>
+                        <a href="{{ url_for('about') }}" class="font-medium text-clay-black hover:opacity-70 transition-opacity">About</a>
+                        <a href="{{ url_for('home') }}#contact_us" class="font-medium text-clay-black hover:opacity-70 transition-opacity">Contact</a>
                     </div>
 
                     <div class="hidden items-center gap-3 lg:flex">
-                        <a href="{{ url_for('upload_report') }}" class="button-primary">
+                        <a href="{{ url_for('upload_report') }}" class="button-clay">
                             <i class="fa-solid fa-sparkles"></i>
                             Start Analysis
                         </a>
                     </div>
 
-                    <button type="button" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-700/70 bg-slate-900/80 text-white lg:hidden" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">
+                    <button type="button" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-clay-oat bg-white text-clay-black shadow-sm lg:hidden" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu">
                         <i class="fa-solid fa-bars text-lg"></i>
                     </button>
                 </div>
 
                 <div id="mobile-menu" class="hidden pt-5 lg:hidden">
-                    <div class="flex flex-col gap-3 border-t border-slate-800/70 pt-5 text-sm">
-                        <a href="{{ url_for('home') }}" class="rounded-2xl border border-slate-800/70 px-4 py-3 text-slate-200">Home</a>
-                        <a href="{{ url_for('service') }}" class="rounded-2xl border border-slate-800/70 px-4 py-3 text-slate-200">Services</a>
-                        <a href="{{ url_for('home') }}#workflow" class="rounded-2xl border border-slate-800/70 px-4 py-3 text-slate-200">Workflow</a>
-                        <a href="{{ url_for('about') }}" class="rounded-2xl border border-slate-800/70 px-4 py-3 text-slate-200">About</a>
-                        <a href="{{ url_for('home') }}#contact_us" class="rounded-2xl border border-slate-800/70 px-4 py-3 text-slate-200">Contact</a>
-                        <a href="{{ url_for('upload_report') }}" class="button-primary mt-2">
+                    <div class="flex flex-col gap-3 border-t border-clay-oat pt-5 text-sm">
+                        <a href="{{ url_for('home') }}" class="rounded-xl border border-clay-oat bg-white px-4 py-3 text-clay-black font-semibold">Home</a>
+                        <a href="{{ url_for('service') }}" class="rounded-xl border border-clay-oat bg-white px-4 py-3 text-clay-black font-semibold">Services</a>
+                        <a href="{{ url_for('home') }}#workflow" class="rounded-xl border border-clay-oat bg-white px-4 py-3 text-clay-black font-semibold">Workflow</a>
+                        <a href="{{ url_for('about') }}" class="rounded-xl border border-clay-oat bg-white px-4 py-3 text-clay-black font-semibold">About</a>
+                        <a href="{{ url_for('home') }}#contact_us" class="rounded-xl border border-clay-oat bg-white px-4 py-3 text-clay-black font-semibold">Contact</a>
+                        <a href="{{ url_for('upload_report') }}" class="button-clay mt-2">
                             <i class="fa-solid fa-upload"></i>
                             Upload Report
                         </a>
@@ -89,46 +89,43 @@
 
     <footer class="relative z-10 px-4 pb-8 sm:px-6">
         <div class="shell-container">
-            <div class="surface-panel overflow-hidden rounded-[2rem] px-6 py-10 sm:px-8">
+            <div class="clay-section p-8 sm:p-12 mb-8 bg-white border border-clay-oat" style="background-color: var(--swatch-lemon-400);">
                 <div class="grid gap-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
                     <div class="max-w-lg">
                         <div class="mb-5 flex items-center gap-3">
-                            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="InsightCare AI logo" class="h-10 w-auto">
                             <div>
-                                <p class="font-display text-xl font-semibold text-white">InsightCare AI</p>
-                                <p class="text-sm text-slate-400">Transparent, clinically legible AI assistance.</p>
+                                <p class="text-3xl font-bold tracking-tighter text-clay-black">XAI</p>
                             </div>
                         </div>
-                        <p class="text-sm leading-7 text-slate-300">
+                        <p class="text-base font-medium leading-7 text-clay-black opacity-80">
                             Review medical reports, surface explainable drivers, and move from upload to interpretable result in one guided flow.
                         </p>
                     </div>
 
                     <div>
-                        <p class="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-slate-400">Navigate</p>
-                        <div class="space-y-3 text-sm text-slate-300">
-                            <a href="{{ url_for('home') }}" class="block transition hover:text-white">Home</a>
-                            <a href="{{ url_for('service') }}" class="block transition hover:text-white">Services</a>
-                            <a href="{{ url_for('about') }}" class="block transition hover:text-white">About</a>
-                            <a href="{{ url_for('upload_report') }}" class="block transition hover:text-white">Upload Report</a>
+                        <p class="mb-4 text-sm font-bold uppercase tracking-[0.1em] text-clay-black mono-font">Navigate</p>
+                        <div class="space-y-3 font-semibold text-clay-black opacity-80">
+                            <a href="{{ url_for('home') }}" class="block transition hover:opacity-100 hover:translate-x-1">Home</a>
+                            <a href="{{ url_for('service') }}" class="block transition hover:opacity-100 hover:translate-x-1">Services</a>
+                            <a href="{{ url_for('about') }}" class="block transition hover:opacity-100 hover:translate-x-1">About</a>
+                            <a href="{{ url_for('upload_report') }}" class="block transition hover:opacity-100 hover:translate-x-1">Upload Report</a>
                         </div>
                     </div>
 
                     <div>
-                        <p class="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-slate-400">Contact</p>
-                        <div class="space-y-3 text-sm text-slate-300">
+                        <p class="mb-4 text-sm font-bold uppercase tracking-[0.1em] text-clay-black mono-font">Contact</p>
+                        <div class="space-y-3 font-medium text-clay-black opacity-80">
                             <p>Clinical AI workflows for kidney report screening and chest X-ray review.</p>
-                            <a href="mailto:support@insightcare.ai" class="block transition hover:text-white">support@insightcare.ai</a>
-                            <p>Built for clear, reviewable decision support experiences.</p>
+                            <a href="mailto:support@xai.ai" class="block font-bold transition hover:opacity-100">support@xai.ai</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-10 flex flex-col gap-3 border-t border-slate-800/80 pt-6 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
-                    <p>&copy; 2026 InsightCare AI. All rights reserved.</p>
+                <div class="mt-10 flex flex-col gap-3 border-t border-black border-opacity-10 pt-6 text-sm font-semibold text-clay-black sm:flex-row sm:items-center sm:justify-between">
+                    <p>&copy; 2026 XAI. All rights reserved.</p>
                     <div class="flex items-center gap-4">
-                        <span class="rounded-full border border-slate-800/80 px-3 py-1">Explainable outputs</span>
-                        <span class="rounded-full border border-slate-800/80 px-3 py-1">Human-in-the-loop</span>
+                        <span class="badge-clay" style="background: transparent;">Explainable outputs</span>
+                        <span class="badge-clay" style="background: transparent;">Human-in-the-loop</span>
                     </div>
                 </div>
             </div>

@@ -6,11 +6,11 @@
 <section class="pt-8 sm:pt-12">
     <div class="shell-container">
         <div class="max-w-4xl">
-            <span class="eyebrow">Service Portfolio</span>
-            <h1 class="mt-6 text-balance font-display text-4xl font-semibold leading-[0.98] text-white sm:text-6xl">
+            <span class="badge-clay" style="background: var(--swatch-lemon-400);">Service Portfolio</span>
+            <h1 class="mt-6 text-balance display-font text-5xl sm:text-6xl text-clay-black">
                 Frontend flows built around the two places users need the most clarity.
             </h1>
-            <p class="mt-6 text-lg leading-8 text-slate-300">
+            <p class="mt-6 text-lg leading-8 body-font text-clay-black opacity-80">
                 The app now treats kidney screening and lung image interpretation as distinct but visually related workflows, so users always understand what input is expected and what evidence comes back.
             </p>
         </div>
@@ -20,37 +20,37 @@
 <section class="py-12 sm:py-16">
     <div class="shell-container">
         <div class="grid gap-6 xl:grid-cols-2">
-            <article class="surface-card rounded-[2rem] p-8">
-                <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-50 text-teal-600">
+            <article class="clay-card p-8 bg-white border-2 border-clay-black shadow-[8px_8px_0px_#000]">
+                <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-clay-oat text-clay-black">
                     <i class="fa-solid fa-file-waveform text-xl"></i>
                 </div>
-                <p class="stat-kicker">Service A</p>
-                <h2 class="mt-3 font-display text-3xl font-semibold text-slate-950">CKD report workflow</h2>
-                <p class="mt-4 leading-7 text-slate-600">
+                <p class="mono-font text-sm font-bold uppercase tracking-widest opacity-60">Service A</p>
+                <h2 class="mt-3 display-font text-3xl">CKD report workflow</h2>
+                <p class="mt-4 body-font text-base text-clay-black font-medium">
                     Designed for uploaded report imagery that may require field correction before inference. The review step is part of the core UX, not a secondary admin view.
                 </p>
-                <div class="mt-6 grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
-                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Input: scanned or photographed report image</div>
-                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Output: prediction confidence and SHAP-based explanation</div>
-                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Key strength: editable extracted values</div>
-                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Visuals: factor chart plus force plot</div>
+                <div class="mt-8 grid gap-3 text-sm sm:grid-cols-2">
+                    <div class="clay-card-dashed p-4 font-semibold">Input: scanned image</div>
+                    <div class="clay-card-dashed p-4 font-semibold">Output: prediction confidence</div>
+                    <div class="clay-card-dashed p-4 font-semibold">Key strength: editable values</div>
+                    <div class="clay-card-dashed p-4 font-semibold">Visuals: factor chart</div>
                 </div>
             </article>
 
-            <article class="surface-card rounded-[2rem] p-8">
-                <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
+            <article class="clay-card p-8 bg-white border-2 border-clay-black shadow-[8px_8px_0px_#000]">
+                <div class="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-clay-oat text-clay-black">
                     <i class="fa-solid fa-lungs text-xl"></i>
                 </div>
-                <p class="stat-kicker">Service B</p>
-                <h2 class="mt-3 font-display text-3xl font-semibold text-slate-950">Lung X-ray workflow</h2>
-                <p class="mt-4 leading-7 text-slate-600">
-                    Built for image-first interpretation, where a confidence label alone is not enough. The result view compares the original X-ray against the Grad-CAM heatmap to add immediate context.
+                <p class="mono-font text-sm font-bold uppercase tracking-widest opacity-60">Service B</p>
+                <h2 class="mt-3 display-font text-3xl">Lung X-ray workflow</h2>
+                <p class="mt-4 body-font text-base text-clay-black font-medium">
+                    Built for image-first interpretation, where a confidence label alone is not enough. The result view compares the original X-ray against the Grad-CAM heatmap.
                 </p>
-                <div class="mt-6 grid gap-3 text-sm text-slate-600 sm:grid-cols-2">
-                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Input: chest X-ray image</div>
-                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Output: class label with visual evidence</div>
-                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Key strength: side-by-side reading experience</div>
-                    <div class="rounded-[1.25rem] bg-slate-50 p-4">Visuals: confidence bar and heatmap</div>
+                <div class="mt-8 grid gap-3 text-sm sm:grid-cols-2">
+                    <div class="clay-card-dashed p-4 font-semibold">Input: chest X-ray image</div>
+                    <div class="clay-card-dashed p-4 font-semibold">Output: class label evidence</div>
+                    <div class="clay-card-dashed p-4 font-semibold">Key strength: side-by-side reading</div>
+                    <div class="clay-card-dashed p-4 font-semibold">Visuals: heatmap</div>
                 </div>
             </article>
         </div>
@@ -59,27 +59,27 @@
 
 <section class="py-6 sm:py-10">
     <div class="shell-container">
-        <div class="surface-panel rounded-[2rem] p-8 sm:p-10">
+        <div class="clay-section p-8 sm:p-16" style="background: var(--swatch-ube-300);">
             <div class="grid gap-6 lg:grid-cols-3">
-                <div class="rounded-[1.5rem] border border-slate-800/80 bg-slate-950/55 p-6">
-                    <p class="text-sm uppercase tracking-[0.2em] text-slate-400">Input guidance</p>
-                    <h3 class="mt-3 font-display text-2xl text-white">Users know what to upload</h3>
-                    <p class="mt-3 text-sm leading-7 text-slate-300">The upload page changes its wording and expectations based on the selected workflow.</p>
+                <div class="clay-card-dashed bg-white p-6 border-clay-black">
+                    <p class="mono-font text-sm font-bold uppercase tracking-widest opacity-60 text-clay-black">Input guidance</p>
+                    <h3 class="mt-3 display-font text-2xl text-clay-black">Users know what to upload</h3>
+                    <p class="mt-4 body-font text-clay-black font-medium text-sm">The upload page changes its wording and expectations based on the selected workflow.</p>
                 </div>
-                <div class="rounded-[1.5rem] border border-slate-800/80 bg-slate-950/55 p-6">
-                    <p class="text-sm uppercase tracking-[0.2em] text-slate-400">Evidence layers</p>
-                    <h3 class="mt-3 font-display text-2xl text-white">Results surface reasoning</h3>
-                    <p class="mt-3 text-sm leading-7 text-slate-300">Charts, overlays, and summaries help the result screens feel inspectable rather than abrupt.</p>
+                <div class="clay-card-dashed bg-white p-6 border-clay-black">
+                    <p class="mono-font text-sm font-bold uppercase tracking-widest opacity-60 text-clay-black">Evidence layers</p>
+                    <h3 class="mt-3 display-font text-2xl text-clay-black">Results surface reasoning</h3>
+                    <p class="mt-4 body-font text-clay-black font-medium text-sm">Charts, overlays, and summaries help the result screens feel inspectable rather than abrupt.</p>
                 </div>
-                <div class="rounded-[1.5rem] border border-slate-800/80 bg-slate-950/55 p-6">
-                    <p class="text-sm uppercase tracking-[0.2em] text-slate-400">Shared system</p>
-                    <h3 class="mt-3 font-display text-2xl text-white">One brand across the app</h3>
-                    <p class="mt-3 text-sm leading-7 text-slate-300">Navigation, spacing, and card styling now read as one product instead of disconnected template files.</p>
+                <div class="clay-card-dashed bg-white p-6 border-clay-black">
+                    <p class="mono-font text-sm font-bold uppercase tracking-widest opacity-60 text-clay-black">Shared system</p>
+                    <h3 class="mt-3 display-font text-2xl text-clay-black">One brand across the app</h3>
+                    <p class="mt-4 body-font text-clay-black font-medium text-sm">Navigation, spacing, and card styling now read as one product instead of disconnected template files.</p>
                 </div>
             </div>
 
-            <div class="mt-8">
-                <a href="{{ url_for('upload_report') }}" class="button-primary">
+            <div class="mt-10">
+                <a href="{{ url_for('upload_report') }}" class="button-clay primary text-lg bg-white border-clay-black text-clay-black">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     Open Upload Flow
                 </a>

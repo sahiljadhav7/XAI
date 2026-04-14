@@ -11,37 +11,37 @@
 {% set elevated_signal = confidence >= 0.62 %}
 <section class="pt-8 sm:pt-12">
     <div class="shell-container space-y-6">
-        <div class="surface-panel rounded-[2rem] p-8 sm:p-10">
+        <div class="clay-section p-8 sm:p-10" style="background: var(--swatch-ube-300);">
             <div class="grid gap-8 xl:grid-cols-[1.08fr_0.92fr] xl:items-start">
                 <div>
-                    <span class="eyebrow">Kidney Result</span>
-                    <h1 class="mt-5 font-display text-4xl font-semibold text-white sm:text-5xl">Explainable CKD assessment, presented as a story instead of a raw score.</h1>
-                    <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+                    <span class="badge-clay bg-white border-clay-black">Kidney Result</span>
+                    <h1 class="mt-5 display-font text-4xl sm:text-5xl text-clay-black">Explainable CKD assessment, presented as a story instead of a raw score.</h1>
+                    <p class="mt-5 max-w-2xl text-lg leading-8 body-font text-clay-black opacity-80">
                         The result screen now groups prediction confidence, top feature drivers, and the SHAP force plot into one readable flow so the output feels inspectable.
                     </p>
                 </div>
 
-                <div class="surface-card rounded-[1.75rem] p-6 sm:p-7">
-                    <p class="stat-kicker">Screening summary</p>
-                    <h2 class="mt-3 font-display text-3xl font-semibold text-slate-950">{{ "Elevated CKD signal" if elevated_signal else "Lower CKD signal" }}</h2>
-                    <p class="mt-3 text-sm leading-7 text-slate-600">
+                <div class="clay-card p-6 sm:p-8 border-2 border-clay-black shadow-[8px_8px_0px_#000]">
+                    <p class="mono-font text-sm font-bold uppercase tracking-widest opacity-60">Screening summary</p>
+                    <h2 class="mt-3 display-font text-3xl text-clay-black">{{ "Elevated CKD signal" if elevated_signal else "Lower CKD signal" }}</h2>
+                    <p class="mt-3 text-sm leading-7 body-font font-medium">
                         Confidence score reflects the current model output after the report values were reviewed and submitted.
                     </p>
                     <div class="mt-6">
-                        <div class="mb-2 flex items-center justify-between text-sm font-semibold text-slate-700">
+                        <div class="mb-2 flex items-center justify-between text-sm font-bold text-clay-black">
                             <span>Prediction confidence</span>
                             <span>{{ confidence_pct }}%</span>
                         </div>
-                        <div class="progress-track h-3">
-                            <span style="width: {{ confidence_pct }}%"></span>
+                        <div class="w-full bg-clay-oat rounded-full h-4 overflow-hidden border border-clay-black">
+                            <div class="h-full rounded-full" style="background: var(--swatch-matcha-300); border-right: 1px solid var(--ink-black); width: {{ confidence_pct }}%;"></div>
                         </div>
                     </div>
                     <div class="mt-6 flex flex-wrap gap-3">
-                        <a href="{{ url_for('upload_report') }}" class="button-primary">
+                        <a href="{{ url_for('upload_report') }}" class="button-clay primary">
                             <i class="fa-solid fa-upload"></i>
                             New Upload
                         </a>
-                        <a href="{{ url_for('home') }}" class="button-ghost">
+                        <a href="{{ url_for('home') }}" class="button-clay ghost">
                             <i class="fa-solid fa-house"></i>
                             Home
                         </a>
@@ -51,31 +51,31 @@
         </div>
 
         <div class="grid gap-6 xl:grid-cols-[0.98fr_1.02fr]">
-            <article class="surface-card rounded-[2rem] p-6 sm:p-8">
-                <p class="stat-kicker">Why the model leaned this way</p>
-                <h2 class="mt-3 font-display text-3xl font-semibold text-slate-950">Top contributing factors</h2>
-                <p class="mt-3 text-sm leading-7 text-slate-600">
+            <article class="clay-card p-8 border-2 border-clay-black shadow-[4px_4px_0px_#000]">
+                <p class="mono-font text-sm font-bold uppercase tracking-widest opacity-60">Why the model leaned this way</p>
+                <h2 class="mt-3 display-font text-3xl">Top contributing factors</h2>
+                <p class="mt-3 text-sm leading-7 body-font font-medium">
                     The chart below highlights the strongest features affecting the current prediction.
                 </p>
                 <div id="contributingFactors" class="mt-6 h-[360px] w-full"></div>
             </article>
 
-            <article class="surface-card rounded-[2rem] p-6 sm:p-8">
-                <p class="stat-kicker">Narrative explanation</p>
-                <h2 class="mt-3 font-display text-3xl font-semibold text-slate-950">Plain-language interpretation</h2>
-                <div class="mt-6 text-sm leading-7 text-slate-700 [&_b]:font-semibold [&_li]:mb-2 [&_li]:ml-5 [&_li]:list-disc">
+            <article class="clay-card p-8 border-2 border-clay-black shadow-[4px_4px_0px_#000]">
+                <p class="mono-font text-sm font-bold uppercase tracking-widest opacity-60">Narrative explanation</p>
+                <h2 class="mt-3 display-font text-3xl">Plain-language interpretation</h2>
+                <div class="mt-6 text-sm leading-7 body-font font-medium [&_b]:font-bold [&_li]:mb-2 [&_li]:ml-5 [&_li]:list-disc">
                     {{ text_explanation | safe }}
                 </div>
             </article>
         </div>
 
-        <div class="surface-card rounded-[2rem] p-6 sm:p-8">
-            <p class="stat-kicker">Detailed attribution</p>
-            <h2 class="mt-3 font-display text-3xl font-semibold text-slate-950">SHAP force plot</h2>
-            <p class="mt-3 text-sm leading-7 text-slate-600">
+        <div class="clay-card p-8 border-2 border-clay-black shadow-[4px_4px_0px_#000]">
+            <p class="mono-font text-sm font-bold uppercase tracking-widest opacity-60">Detailed attribution</p>
+            <h2 class="mt-3 display-font text-3xl">SHAP force plot</h2>
+            <p class="mt-3 text-sm leading-7 body-font font-medium">
                 This preserves the underlying force-plot view while giving it more breathing room inside the redesigned layout.
             </p>
-            <div class="mt-6 overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white">
+            <div class="mt-6 overflow-hidden rounded-2xl border-2 border-clay-black bg-white shadow-[4px_4px_0px_#000]">
                 <iframe src="{{ url_for('static', filename='images/force_plot.html') }}" class="h-[420px] w-full" title="SHAP force plot"></iframe>
             </div>
         </div>
