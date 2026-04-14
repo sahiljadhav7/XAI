@@ -12,8 +12,8 @@ import io
 import matplotlib.pyplot as plt
 import base64
 from pdf_generator import * 
-
-load_dotenv()
+basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.env'))
 
 app = Flask(__name__)
 
