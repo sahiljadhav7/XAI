@@ -5,7 +5,7 @@ scikit-learn>=1.1.0
 shap>=0.40.0
 matplotlib>=3.7.0
 opencv-python-headless>=4.8.0
-tensorflow>=2.13.0
+tensorflow-cpu==2.13.0   # CPU‑only TensorFlow for Render
 google-genai>=0.2.0
 Pillow>=10.0.0
 gunicorn>=20.1.0

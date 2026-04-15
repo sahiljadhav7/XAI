@@ -1,0 +1,240 @@
+# XAI Diagnostic Dashboard
+
+![XAI Dashboard Screenshot](file:///C:/Users/ADMIN/.gemini/antigravity/brain/da64e54e-bac4-4951-be76-d3d70bceed4f/xai_analysis_broken_1776264022495.webp)
+
+---
+
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Setup & Development](#setup--development)
+  - [Prerequisites](#prerequisites)
+  - [Local Development (Windows)](#local-development-windows)
+  - [Local Development (WSL/Linux)](#local-development-wsllinux)
+- [Dataset & Model Assets](#dataset--model-assets)
+- [Running the Application](#running-the-application)
+- [Deployment to Render](#deployment-to-render)
+- [Usage Guide](#usage-guide)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## Project Overview
+
+**XAI Diagnostic Dashboard** is a Flask‑based web application that provides explainable AI (XAI) analysis for two medical domains:
+1. **Chronic Kidney Disease (CKD)** – uses a Random Forest model.
+2. **Lung Disease** – uses a TensorFlow model.
+
+The app lets users upload medical reports (PDFs or images), extracts structured data via Gemini’s vision API, runs predictions, and visualizes model explanations (SHAP values) directly in the browser.
+
+The application is hosted live at `https://xai-ys6w.onrender.com/` and can be run locally for development and testing.
+
+---
+
+## Features
+
+- **File Upload** – PDF, PNG, JPG support.
+- **AI‑Powered Data Extraction** – leverages Gemini Vision API to convert images to structured CSV rows.
+- **Model Inference** – Random Forest for CKD, TensorFlow for lung disease.
+- **Explainability** – SHAP visualizations for kidney predictions.
+- **Dynamic UI** – responsive Bootstrap‑styled templates with modern CSS (glass‑morphism, gradients).
+- **Synthetic Dataset Generation** – `fix_csv.py` creates a 400‑row CKD dataset compliant with the UCI format.
+- **Docker‑ready** – a `Dockerfile` can be added for containerized deployments.
+
+---
+
+## Architecture
+
+```
+XAI/
+├─ app.py                # Flask entry point & routing
+├─ prediction.py         # Pre‑processing, model loading, inference
+├─ data_extraction.py    # Gemini Vision API wrapper
+├─ pdf_generator.py      # Generates PDF reports from results
+├─ fix_csv.py            # Synthetic CKD dataset generator
+├─ requirements.txt      # Python dependencies
+├─ .gitignore            # Updated to allow model & CSV files
+├─ .env                  # Gemini API key (not committed)
+├─ static/
+│   ├─ models/
+│   │   ├─ chronic_kidney_disease/
+│   │   │   ├─ Random_Forest_model.pkl
+│   │   │   └─ data/processed_kidney_disease.csv
+│   │   └─ lung_disease/model.h5
+│   └─ styles/site.css   # Custom CSS (glassmorphism, gradients)
+└─ templates/
+    ├─ base.html        # Base layout with navigation
+    ├─ upload_report.html
+    ├─ view_report.html
+    ├─ result.html
+    └─ services.html
+```
+
+- **Flask** handles HTTP routing and serves Jinja2 templates.
+- **Prediction pipeline** loads the CSV, fits a `StandardScaler` and `LabelEncoder`, then runs the model.
+- **Gemini API key** is read from a `.env` file via `python-dotenv`.
+- **Static assets** (models, dataset) are now tracked in Git after fixing `.gitignore`.
+
+---
+
+## Setup & Development
+
+### Prerequisites
+- **Python 3.11+** (recommended 3.11 for full compatibility). Windows users can install from the official installer; Linux/WSL users need `python3.12-venv`.
+- **Git** – for version control and pushing to Render.
+- **Gemini API key** – obtain from Google AI Studio and store in `.env`.
+- **Render account** – for production deployment (already configured).
+
+### Local Development (Windows)
+1. Open **PowerShell** or **Command Prompt** and navigate to the project root:
+   ```cmd
+   cd d:\XAI\XAI
+   ```
+2. Create and activate a virtual environment:
+   ```cmd
+   python -m venv .venv
+   .\.venv\Scripts\activate   # PowerShell: .\.venv\Scripts\Activate.ps1
+   ```
+3. Install dependencies:
+   ```cmd
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
+4. Add your Gemini key:
+   ```text
+   # .env (in the project root)
+   GEMINI_API_KEY=YOUR_KEY_HERE
+   ```
+5. Run the app:
+   ```cmd
+   python app.py
+   ```
+   Visit `http://127.0.0.1:5000/` in a browser.
+
+### Local Development (WSL / Linux)
+```bash
+# 1️⃣ Update packages and install venv support
+sudo apt update && sudo apt install -y python3.12-venv python3-pip
+
+# 2️⃣ Navigate to the project directory (mounted Windows drive)
+cd /mnt/d/XAI/XAI
+
+# 3️⃣ Create & activate a virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# 4️⃣ Install Python deps
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# 5️⃣ Ensure .env has your GEMINI_API_KEY (edit if needed)
+# 6️⃣ Run the server
+python app.py
+```
+The server will be reachable at `http://127.0.0.1:5000/` from Windows as well.
+
+---
+
+## Dataset & Model Assets
+- **`processed_kidney_disease.csv`** – a synthetic 400‑row CKD dataset generated by `fix_csv.py`. It replaces the original 6‑row stub and provides enough variance for `StandardScaler` and `LabelEncoder`.
+- **`Random_Forest_model.pkl`** – pre‑trained Random Forest model for CKD prediction.
+- **`model.h5`** – TensorFlow model for lung disease classification.
+
+All three files are now **tracked in Git** (the `.gitignore` was updated to allow them). If you ever need to regenerate the CKD CSV, run:
+```bash
+python fix_csv.py
+```
+
+---
+
+## Running the Application
+1. **Start the Flask server** (see the setup steps above).
+2. **Upload a medical report** via the "Upload Report" page.
+3. The backend extracts data, runs the appropriate model, and returns:
+   - Prediction result
+   - SHAP explanation chart (kidney only)
+   - A downloadable PDF summary (`pdf_generator.py`).
+4. Navigate to **`/view_report`** to see the full analysis.
+
+---
+
+## Deployment to Render
+1. Commit and push all changes (including model files and CSV) to the GitHub repo:
+   ```bash
+   git add -f static/models/chronic_kidney_disease/data/processed_kidney_disease.csv \
+            static/models/chronic_kidney_disease/Random_Forest_model.pkl \
+            static/models/lung_disease/model.h5 .gitignore fix_csv.py
+   git commit -m "fix: add model assets and CKD dataset so Render can run analysis"
+   git push
+   ```
+2. Render automatically detects the push, installs dependencies from `requirements.txt`, and restarts the service.
+3. Ensure the **environment variable** `GEMINI_API_KEY` is set in the Render dashboard (Settings → Environment). 
+4. After deployment, visit `https://xai-ys6w.onrender.com/` – the **Kidney analysis** status should show **AVAILABLE**.
+
+---
+
+## Usage Guide
+| Page | Purpose |
+|------|---------|
+| `/` | Home / introduction |
+| `/upload_report` | Upload PDF or image, trigger data extraction |
+| `/view_report` | View prediction results and SHAP visualizations |
+| `/services` | Overview of supported analyses (Kidney & Lung) |
+| `/about` | Project background |
+
+---
+
+## Project Structure
+```
+XAI/
+├─ app.py                # Flask routes & app config
+├─ prediction.py         # Pre‑processing, model loading, inference
+├─ data_extraction.py    # Gemini Vision API wrapper
+├─ pdf_generator.py      # PDF report generation
+├─ fix_csv.py            # Synthetic CKD dataset generator
+├─ requirements.txt      # Python dependencies
+├─ .gitignore            # Updated to allow model & CSV files
+├─ .env                  # Gemini API key (not committed)
+├─ static/
+│   ├─ models/
+│   │   ├─ chronic_kidney_disease/
+│   │   │   ├─ Random_Forest_model.pkl
+│   │   │   └─ data/processed_kidney_disease.csv
+│   │   └─ lung_disease/model.h5
+│   └─ styles/site.css   # Custom CSS (glassmorphism, gradients)
+└─ templates/
+    ├─ base.html        # Base layout
+    ├─ upload_report.html
+    ├─ view_report.html
+    ├─ result.html
+    └─ services.html
+```
+
+---
+
+## Contributing
+1. Fork the repository.
+2. Create a feature branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. Make your changes, ensure they pass linting and unit tests (if any).
+4. Commit with a clear message and push:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+5. Open a Pull Request on GitHub.
+
+Please keep the `.gitignore` updated if you add new large assets (e.g., additional model files). Use `git add -f` only for files that must be tracked.
+
+---
+
+## License
+This project is licensed under the **MIT License** – see the `LICENSE` file for details.
+
+---
+
+*Generated by Antigravity – your AI coding assistant.*

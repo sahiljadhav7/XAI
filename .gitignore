@@ -44,7 +44,7 @@ static/uploads/
 *.joblib
 static/models/*/explainer.joblib
 # *.h5 files are tracked so Render can access the lung model
-# !static/models/lung_disease/model.h5
+!static/models/lung_disease/model.h5   # Ensure the lung .h5 model is tracked
 
 # Data – allow the processed CKD dataset needed by the app
 # *.csv files in models/ are tracked; block only root-level raw data

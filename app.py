@@ -154,18 +154,39 @@ def view_report():
                 )
 
             # Lazy-load TensorFlow and lung disease utilities only when needed
-            from lung_disease import predict_and_visualize
-            from tensorflow.keras.models import load_model
-            from tensorflow.keras.layers import Dense
-            import cv2
-
+            try:
+                from lung_disease import predict_and_visualize
+                from tensorflow.keras.models import load_model
+                from tensorflow.keras.layers import Dense
+                import cv2
+            except Exception as e:
+                app.logger.error(f"TensorFlow import failed: {e}")
+                return render_template(
+                    'error.html',
+                    message='TensorFlow could not be loaded on this server. '
+                            'Please verify the `tensorflow-cpu` dependency is installed.'
+                )
+            # Custom layer handling (kept for compatibility with the original model)
             class CustomDense(Dense):
                 @classmethod
                 def from_config(cls, config):
                     config.pop('quantization_config', None)
                     return super().from_config(config)
-
-            model = load_model(model_path, custom_objects={'Dense': CustomDense}, compile=False)
+            # Load the model – any failure is caught and reported
+            try:
+                model = load_model(
+                    model_path,
+                    custom_objects={'Dense': CustomDense},
+                    compile=False
+                )
+            except Exception as e:
+                app.logger.error(f"Failed to load lung model: {e}")
+                return render_template(
+                    'error.html',
+                    message='The lung disease model could not be loaded. '
+                            'Check that `static/models/lung_disease/model.h5` is present '
+                            'and compatible with the TensorFlow version.'
+                )
             image_path = file_path
             predicted_class,predicted_probability, gradcam_image = predict_and_visualize(image_path,model,"conv_pw_13_relu")
 
