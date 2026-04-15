@@ -40,15 +40,16 @@ Thumbs.db
 uploads/
 static/uploads/
 
-# Large model files
-*.h5
+# Large model files – allow model assets needed by the app
 *.joblib
 static/models/*/explainer.joblib
-static/models/*/model.h5
+# *.h5 files are tracked so Render can access the lung model
+# !static/models/lung_disease/model.h5
 
-# Data
-*.csv
-processed_*.csv
+# Data – allow the processed CKD dataset needed by the app
+# *.csv files in models/ are tracked; block only root-level raw data
+/raw_data/
+*.csv.bak
 
 # Environment variables
 .env
